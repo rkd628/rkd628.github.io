@@ -39,5 +39,5 @@ Having trouble with Pages? Check out our [documentation](https://docs.github.com
 
 ### refer link
 
-https://www.acmicpc.net/blog/view/57
+https://www.acmicpc.net/blog/view/56
 https://www.acmicpc.net/blog/view/57
