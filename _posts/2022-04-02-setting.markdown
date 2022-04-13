@@ -1,0 +1,101 @@
+---
+layout: post
+title:  "라즈베리파이 셋팅"
+date:   2022-04-02 21:03:37 +0530
+categories: RaspberryPi
+---
+
+# os 삽입
+
+pi-imager를 통해 os sdcard에 삽입
+
+
+# 초기 설정
+
+초기 셋팅은 hdmi / usb를 이용하여 display / inputmethod 직접 연결하여 셋팅하는게 편리.  
+
+저는 nexdock이란 것을 이용.  
+궁금하면 문의주삼.  
+https://nexdock.com/
+
+- 무선 네트워크 연결  
+```
+sudo raspi-config
+```
+
+- 고정 ip 설정  
+DHCP 서버 등록
+
+
+- ssh 허용
+```
+sudo raspi-config
+```
+- vnc 허용  
+```
+sudo raspi-config
+```
+- powershell로 접속
+```
+$ssh [id]@[ip]
+or
+ssh [id]@[ip] -p [port]
+```
+- vscode ssh접속 하여 코딩 가능  
+https://mmozzi.tistory.com/79
+
+주의 : 은근 라즈베리파이의 램 많이 잡아먹음.
+
+```
+ps -ef --sort -rss
+```
+
+# 보안
+
+https://www.raspberrypi.com/documentation/  
+https://www.raspberrypi.com/documentation/computers/configuration.html#securing-your-raspberry-pi  
+
+- 이름바꾸기  
+pi는 기본이름. bruteforce공격에 취약.
+- fali2ban  
+```
+$ sudo fail2ban-client status ssh
+Status for the jail: ssh
+|- Filter
+|  |- Currently failed: 0
+|  |- Total failed:     0
+|  `- File list:        /var/log/auth.log
+`- Actions
+   |- Currently banned: 5
+   |- Total banned:     5
+   `- Banned IP list: .....
+```
+- firewall  
+```
+sudo ufw enable
+```
+어차피 공유기 밑에 접속한다면 구태여 필요한가? 싶긴함.  
+
+- password auth disable  
+```
+sudo nano /etc/ssh/sshd_config
+```
+
+```
+ChallengeResponseAuthentication no
+PasswordAuthentication no
+UsePAM no
+```
+- rsa 접속  
+client의 .ssh/id_rsa를
+라즈베리파이의 ~/.ssh/authorized_keys 에 추가.  
+
+
+# 포트포워딩은 신중하게...  
+공격이 겁내 들어옴..
+/assets/1.txt  
+
+```
+$last
+$sudo lastb
+```

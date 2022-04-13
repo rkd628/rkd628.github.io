@@ -1,0 +1,48 @@
+---
+layout: post
+title:  "활용방안"
+date:   2022-04-04 21:03:39 +0530
+categories: RaspberryPi
+---
+
+# 홈카메라
+
+```
+raspivid -o - -t 0 -w 800 -h 600 | cvlc -vvv stream:///dev/stdin --sout '#rtp{sdp=rtsp://:[port]/}' :demux=h264 --h264-fps=15 --sout-rtsp-user [username] --sout-rtsp-pwd [password]
+```
+
+![](/assets/Screenshot_2.png)  
+
+# 온습도계  
+
+```
+import time
+import Adafruit_DHT
+
+DHT_SENSOR = Adafruit_DHT.DHT22
+DHT_PIN = 4
+POS = "TH01"
+
+humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+f=open('temp_log.txt', 'a')
+if humidity is not None and temperature is not None:
+    print("{0},{1},{2},{3:0.1f},{4:0.1f}".format(POS, time.strftime('%y/%m/%d'), \
+                             time.strftime('%H:%M:%S'), temperature, humidity))
+    f.write("{0},{1},{2},{3:0.1f},{4:0.1f}\n".format(POS, time.strftime('%y/%m/%d'), \
+                                 time.strftime('%H:%M:%S'), temperature, humidity))
+else:
+    print("{0},{1},{2}, Data Error".format(POS, time.strftime('%y/%m/%d'), \
+                                              time.strftime('%H:%M:%S')))
+    f.write("{0},{1},{2}, Data Error\n".format(POS, time.strftime('%y/%m/%d'), \
+                                                  time.strftime('%H:%M:%S')))
+f.close()
+```
+
+```
+$ python TempHr.py
+TH01,22/04/14,01:12:55,24.3,59.9
+```
+
+# Firebase
+
+https://firebase.google.com/docs/admin/setup?hl=ko
